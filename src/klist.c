@@ -4,11 +4,29 @@
 
 #include "klist.h"
 
+struct node* init_list(void *val)
+{
+    struct node *list = (struct node*)malloc(sizeof(struct node));
+    void *tmp_val = (void*)malloc(sizeof(val));
+    memcpy(tmp_val, val, sizeof(val));
+    list->data = tmp_val;
+    list->next = NULL;
+
+    return list;
+}
+
+int is_list_init(struct node **list)
+{
+    if (*list == NULL)
+        return 1;
+    else
+        return 0;
+}
 
 void insert_at_begin(struct node **list, void *val)
 {
     struct node *tmp = (struct node*)malloc(sizeof(struct node));
-    void *tmp_val = malloc(sizeof(val));
+    void *tmp_val = (void*)malloc(sizeof(val));
     memcpy(tmp_val, val, sizeof(val));
 
     if ((*list) == NULL) {
@@ -25,7 +43,7 @@ void insert_at_begin(struct node **list, void *val)
 void insert_at_end(struct node **list, void *val)
 {
     struct node *tmp = (struct node*)malloc(sizeof(struct node));
-    void *tmp_val = malloc(sizeof(val));
+    void *tmp_val = (void*)malloc(sizeof(val));
     memcpy(tmp_val, val, sizeof(val));
 
     if ((*list) == NULL) {
@@ -43,18 +61,32 @@ void insert_at_end(struct node **list, void *val)
     tmp->next->data = tmp_val;
     tmp->next->next = NULL;
 }
-void traverse(struct node **list)
+void free_list(struct node **list)
 {
-    if (*list == NULL)
+    struct node *t = NULL;
+    struct node *l = *list;
+
+    do {
+        t = l;
+        l = l->next;
+        free(t);
+        t = NULL;
+    }
+    while (l->next != NULL);
+    
+}
+void traverse(struct node *list, void (*print_val)(struct node*))
+{
+    if (list == NULL)
         return;
 
     struct node *tmp;
 
     do
     {
-        printf("node value %d\n", *(int*)(*list)->data);
-        tmp = *list;
-        *list = (*list)->next;
+        (*print_val)(list);
+        tmp = list;
+        list = list->next;
     }
     while(tmp->next != NULL);
 }
