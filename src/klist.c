@@ -4,11 +4,11 @@
 
 #include "klist.h"
 
-struct node* init_list(void *val)
+struct node* init_list(void *val, size_t val_size)
 {
     struct node *list = (struct node*)malloc(sizeof(struct node));
-    void *tmp_val = (void*)malloc(sizeof(val));
-    memcpy(tmp_val, val, sizeof(val));
+    void *tmp_val = (void*)malloc(val_size);
+    memcpy(tmp_val, val, val_size);
     list->data = tmp_val;
     list->next = NULL;
 
@@ -23,11 +23,11 @@ int is_list_init(struct node **list)
         return 0;
 }
 
-void insert_at_begin(struct node **list, void *val)
+void insert_at_begin(struct node **list, void *val, size_t val_size)
 {
     struct node *tmp = (struct node*)malloc(sizeof(struct node));
-    void *tmp_val = (void*)malloc(sizeof(val));
-    memcpy(tmp_val, val, sizeof(val));
+    void *tmp_val = (void*)malloc(val_size);
+    memcpy(tmp_val, val, val_size);
 
     if ((*list) == NULL) {
         (*list) = tmp;
@@ -40,11 +40,11 @@ void insert_at_begin(struct node **list, void *val)
     tmp->next = *list;
     *list = tmp;
 }
-void insert_at_end(struct node **list, void *val)
+void insert_at_end(struct node **list, void *val, size_t val_size)
 {
     struct node *tmp = (struct node*)malloc(sizeof(struct node));
-    void *tmp_val = (void*)malloc(sizeof(val));
-    memcpy(tmp_val, val, sizeof(val));
+    void *tmp_val = (void*)malloc(val_size);
+    memcpy(tmp_val, val, val_size);
 
     if ((*list) == NULL) {
         (*list) = tmp;
@@ -66,11 +66,17 @@ void free_list(struct node **list)
     struct node *t = NULL;
     struct node *l = *list;
 
+    if (l == NULL)
+        return;
+
     do {
         t = l;
         l = l->next;
         free(t);
         t = NULL;
+
+        if (l == NULL)
+            return;
     }
     while (l->next != NULL);
     
