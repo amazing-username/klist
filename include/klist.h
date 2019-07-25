@@ -3,6 +3,7 @@
 struct node* init_list(void*, size_t);
 
 int is_list_init(struct node**);
+int list_size(struct node**);
 
 void insert_at_begin(struct node**, void*, size_t);
 void insert_at_end(struct node**, void*, size_t);

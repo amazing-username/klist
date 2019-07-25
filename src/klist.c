@@ -22,6 +22,25 @@ int is_list_init(struct node **list)
     else
         return 0;
 }
+int list_size(struct node **list)
+{
+    int count = 0;
+    struct node *tmp = *list;
+
+    struct node *in_tmp = NULL;
+
+    while (tmp != NULL || tmp->next != NULL) {
+        in_tmp = tmp;
+        tmp = tmp->next;
+
+        ++count;
+
+        if (tmp == NULL)
+            break;
+    }
+
+    return count;
+}
 
 void insert_at_begin(struct node **list, void *val, size_t val_size)
 {
