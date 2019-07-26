@@ -15,6 +15,28 @@ struct node* init_list(void *val, size_t val_size)
     return list;
 }
 
+void* list_element_at(struct node *list, int index)
+{
+    if (index < 0)
+        return NULL;
+
+    int size_of_list = list_size(&list);
+
+    if (index >= size_of_list)
+        return NULL;
+
+    struct node *tmp = NULL;
+    for (int i = 0; i <= index; ++i) {
+        tmp = list;
+        list = list->next;
+
+        if (i == index)
+            return tmp->data;
+    }
+
+    return NULL;
+}
+
 int is_list_init(struct node **list)
 {
     if (*list == NULL)
@@ -107,8 +129,7 @@ void traverse(struct node *list, void (*print_val)(struct node*))
 
     struct node *tmp;
 
-    do
-    {
+    do {
         (*print_val)(list);
         tmp = list;
         list = list->next;

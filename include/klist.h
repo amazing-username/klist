@@ -2,6 +2,8 @@
 
 struct node* init_list(void*, size_t);
 
+void* list_element_at(struct node*, int);
+
 int is_list_init(struct node**);
 int list_size(struct node**);
 
